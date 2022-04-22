@@ -1,0 +1,54 @@
+@import "../../sassStyles/mixins";
+@import "../../sassStyles/variables";
+
+
+
+.marketInfo {
+    @include flexBox(column,center,space-between);
+    @include elementSize(90%,90%);
+    
+}
+.contentMarket {
+    @include flexBox(row , center,space-between);
+    @include elementSize(90%,auto);
+    
+        img {
+            transform: scale(1.5);
+            max-width: 40px
+        }
+}
+.titleInfo{
+    @include flexBox(row,center,space-between);
+    @include elementSize(120px,40px);
+    div{
+        @include flexBox(column,center,space-between);
+        span {
+            min-width: max-content;
+            margin-right: 10px
+        }
+    }
+}
+.priceInfo{
+    @include flexBox(column,center,space-between);
+    @include elementSize(auto,80px);
+    span {
+        min-width: 200px;
+        text-align: end;
+    }
+
+}
+.chart{
+    @include elementSize(90%,95%);
+    @include flexBox(column,center,center);
+}
+.lastTransAction{
+    @include elementSize (90%,200px);
+    overflow-y: scroll;
+    border: 2px solid $primaryColor;
+    border-radius: 5px;
+    p{
+        text-align: end;
+        border-top:1px solid $primaryColor ;
+    }
+    
+}

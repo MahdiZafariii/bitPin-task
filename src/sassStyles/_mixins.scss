@@ -1,0 +1,14 @@
+@mixin elementSize ($width,$height) {
+    width: $width;
+    height: $height;
+}
+@mixin flexBox($direction,$align,$justify) {
+    display: flex;
+    flex-direction: $direction;
+    align-items: $align;
+    justify-content: $justify;
+}
+@mixin borderStyle($border,$color,$radius) {
+    border:$border $color;
+    border-radius:$radius ;
+}

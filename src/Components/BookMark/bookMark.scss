@@ -1,0 +1,119 @@
+@import "../../sassStyles/mixins";
+@import "../../sassStyles/variables";
+
+.bookmark {
+    @include elementSize(95% , 90%);
+    @include flexBox(column, center ,flex-start);
+}
+.bookmarkHead{
+    @include elementSize(80% , 60px);
+    @include flexBox (row,flex-start,space-between);
+    margin: 15px 10px 15px 0 ;
+    padding: 25px 0 0 0 ;
+    span:first-Child{
+        min-width: 80px;
+    }
+    span:last-child{
+        min-width: 30px;       
+        text-align: end;
+    };
+    
+    span{
+        min-width: 200px;
+        text-align: center;
+    };
+    
+}
+.marketList {
+    @include elementSize(80% , auto);
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+        width: 2px;
+      }
+      &::-webkit-scrollbar-track {
+        background: $secondaryColor;        
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: $primaryColor;    /* color of the scroll thumb */
+        border-radius: 20px;       /* roundness of the scroll thumb */
+        // border: 3px solid $primaryColor;  /* creates padding around scroll thumb */
+      }
+}
+.market{
+    @include flexBox(row , center , space-between);
+    @include elementSize(100%,80px);
+    border-radius: 5px;
+    transition: all 0.15s ease-in-out;
+    border-top: 1px solid $blue;
+
+    &:hover {
+        background-color: $primaryColor;
+    }
+    div {
+        @include flexBox(row , center , space-between);
+        min-width: 130px;
+        div{
+            @include flexBox(column , center , space-between);
+        }
+        img {
+            @include elementSize(50px,50px)
+        }
+    }
+    a{
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+        @include elementSize(70%,auto);
+        @include flexBox(row , center , space-between);
+    }
+    p{
+        min-width: 100px;
+        text-align: center;
+        margin-left: 30px;
+
+    }
+    .bookmarkBtn{
+        margin: 0 10px 0 35px;
+        padding: 5px;
+        color:$btnColor;
+    }
+    .activeBookMark{
+        margin: 0 10px 0 35px;
+        padding: 5px;
+        color:$primaryColor;
+    }
+    .buyBtn{
+        background-color: rgb(97, 9, 205);
+        padding: 10px 25px;
+        margin-left: 25px;
+        color: white;
+        // z-index: 1000;
+    }
+    button {
+        border: none;
+        outline: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+}
+.bookmarkIcon{
+    font-size: 20px;
+}
+.btnContainer{
+    @include elementSize(70px,20px);
+    @include flexBox(row , center , space-between);
+    background-color: $blue;
+    padding: 5px;
+    border-radius: 12px;
+    button {
+        @include elementSize(50%,20px);
+        outline: none;
+        border: none;
+        background-color: transparent;
+        border-radius: 12px;
+        
+    }
+}
+.activebtn {
+    background-color: rgb(89, 255, 0) !important;
+}

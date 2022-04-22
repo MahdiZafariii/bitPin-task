@@ -1,0 +1,19 @@
+@import "../../sassStyles/mixins";
+@import "../../sassStyles/variables";
+
+nav {
+    @include elementSize (5%,100%);
+    @include flexBox(column,center,space-around);
+    background-color: $secondaryColor;
+    list-style: none;
+    border-radius: 10px;
+    a{
+        padding: 10px 20px;
+        color: $btnColor;
+    }
+
+}
+.activeLink {
+    color: #2f38e3;
+    border-right: 2px solid #2f38e3 ;
+}

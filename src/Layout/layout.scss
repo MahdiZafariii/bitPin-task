@@ -1,0 +1,10 @@
+@import "../sassStyles/mixins";
+@import "../sassStyles/variables";
+
+
+.layout{
+    background-color: $secondaryColor;
+    @include elementSize(80%,90%);
+    @include flexBox(row,center,space-around);
+    border-radius: 10px;
+}

@@ -1,0 +1,132 @@
+@import "../../sassStyles/mixins";
+@import "../../sassStyles/variables";
+
+.home {
+    @include elementSize(95% , 90%);
+    @include flexBox(column, center ,flex-start);
+}
+.head{
+    @include elementSize(80% , 60px);
+    @include flexBox (row,flex-start,space-between);
+    margin: 15px 0px 15px 0 ;
+    padding: 25px 0 0 0 ;
+    span:last-child{
+        min-width: 30px;       
+        text-align: end;
+    };
+    
+    span{
+        min-width: 200px;
+        text-align: center;
+    };
+    
+}
+.productList {
+    @include elementSize(80% , auto);
+    overflow: hidden;
+    
+}
+
+.product{
+    @include flexBox(row , center , space-between);
+    @include elementSize(100%,80px);
+    border-radius: 5px;
+    transition: all 0.15s ease-in-out;
+    border-top: 1px solid $blue;
+
+    &:hover {
+        background-color: $primaryColor;
+    }
+    a{
+        cursor: pointer;
+        @include elementSize(70%,auto);
+        text-decoration: none;
+        z-index: 1;
+        color: black;
+       
+    }
+    a:active{
+        color: black
+    }
+    div {
+        @include flexBox(row , center , space-between);
+        @include elementSize(100%,auto);
+
+        min-width: 130px;
+        div{
+            @include flexBox(column , center , space-between);
+        }
+        img {
+            @include elementSize(50px,50px)
+        }
+        p{
+            min-width: 200px;
+            text-align: center;
+            // margin-left: 30px
+        }
+    }
+    
+    .marketDesc{
+        @include elementSize(180px,50px);
+        @include flexBox(row , center , flex-start);
+        min-width: 200px;
+    }
+    .bookmarkBtn{
+        margin: 0 10px 0 35px;
+        padding: 5px;
+        color:$btnColor;
+    }
+    .activeBookMark{
+        margin: 0 10px 0 35px;
+        padding: 5px;
+        color:$primaryColor;
+    }
+    .buyBtn{
+        min-width: 80px;
+        background-color: rgb(97, 9, 205);
+        padding: 10px 25px;
+        margin-left: 25px;
+        color: white;
+        z-index: 1000;
+    }
+    button {
+        border: none;
+        outline: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+}
+.bookmarkIcon{
+    font-size: 20px;
+}
+.pagination {
+    margin-top: 20px;
+    a{
+        padding: 8px 10px;
+        background-color: $secondaryColor;
+        border: 1px solid $primaryColor;
+        border-radius: 3px;
+        text-decoration: none;
+        color: $primaryColor;
+        margin:2px ;
+    }
+}
+.btnContainer{
+    @include elementSize(70px,20px);
+    @include flexBox(row , center , space-between);
+    background-color: $primaryColor;
+    padding: 5px;
+    border-radius: 8px;
+    min-width: 80px;
+    button {
+        @include elementSize(50%,20px);
+        outline: none;
+        border: none;
+        background-color: transparent;
+        border-radius: 5px;
+        
+    }
+}
+.activebtn {
+    background-color: rgb(89, 255, 0) !important;
+}
