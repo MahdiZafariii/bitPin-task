@@ -45,11 +45,24 @@
 .lastTransAction{
     @include elementSize (90%,200px);
     overflow-y: scroll;
-    border: 2px solid $primaryColor;
+    border: 1px solid $primaryColor;
     border-radius: 5px;
+    padding: 15px;
+    &::-webkit-scrollbar {
+        width: 2px;
+      }
+      &::-webkit-scrollbar-track {
+        background: $secondaryColor;        
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: $primaryColor;    /* color of the scroll thumb */
+        border-radius: 20px;       /* roundness of the scroll thumb */
+        // border: 3px solid $primaryColor;  /* creates padding around scroll thumb */
+      }
     p{
         text-align: end;
-        border-top:1px solid $primaryColor ;
+        border-bottom:1px solid $primaryColor ;
+        margin-top: 5px;
     }
     
 }

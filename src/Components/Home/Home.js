@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { getAllMarkets } from "../../services/getAllMarkets";
 import { BsFillBookmarkPlusFill } from "react-icons/bs";
 import "./Home.scss";
-import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [markets, setMarkets] = useState([]);
   const [error, setError] = useState(null);
-  const [isToman, setToman] = useState(false);
+  const [isToman, setToman] = useState(true);
   const params = useParams();
   const [bookMark, setBookMark] = useState([]);
   const [pageData, setPageData] = useState([]);
@@ -27,29 +27,26 @@ const Home = () => {
     let filter;
     let localStorageBookmark;
     getAllMarkets()
-      .then((res) => {
-        filter = res.data.results.filter((market) => {
-          if (isToman === true) {
-            return market.currency2.code === "IRT";
-          } else {
-            return market.currency2.title === "Tether";
-          }
-        });
+      .then(async (res) => {
         const localStorageData = localStorage.getItem("bookMark");
         if (JSON.parse(localStorageData)) {
           localStorageBookmark = JSON.parse(localStorageData);
           setBookMark(localStorageBookmark);
         }
-      })
-      .then(() => {
+        filter = res.data.results.filter((market) => {
+          if (isToman === true) {
+            return market.currency2.code === "IRT";
+          } else {
+            return market.currency2.code === "USDT";
+          }
+        });
         if (
           localStorageBookmark &&
           localStorageBookmark.length >= 1 &&
           !params.pageNumber
         ) {
           const filteredData = filter.filter(
-            (elem) =>
-              !localStorageBookmark.find(({ code }) => elem.code === code)
+            (elem) => !bookMark.find(({ id }) => elem.id === id)
           );
           let localBookmark;
           if (isToman === true) {
@@ -58,14 +55,16 @@ const Home = () => {
             );
           } else {
             localBookmark = localStorageBookmark.filter(
-              (item) => item.currency2.title === "Tether"
+              (item) => item.currency2.code === "USDT"
             );
           }
+
           filteredData.unshift(...localBookmark);
           setMarkets(filteredData);
         } else {
           setMarkets(filter);
         }
+        // setMarkets(filter);
       })
       .catch((err) => {
         setError([err]);
@@ -76,7 +75,7 @@ const Home = () => {
   }, []);
   useEffect(() => {
     fetchData();
-  }, [isToman, bookMark]);
+  }, [isToman, bookMark.length]);
   useEffect(() => {
     changePage();
   }, [params.pageNumber, pageData]);
@@ -124,7 +123,7 @@ const Home = () => {
           <button
             className={isToman ? "" : "activebtn"}
             onClick={() => {
-              setToman(!isToman);
+              setToman(false);
               navigate("/");
             }}
           >
@@ -132,7 +131,7 @@ const Home = () => {
           </button>
           <button
             onClick={() => {
-              setToman(!isToman);
+              setToman(true);
               navigate("/");
             }}
             className={isToman ? "activebtn" : ""}
@@ -146,11 +145,11 @@ const Home = () => {
         <span> </span>
       </div>
       <div className="productList">
-        {pageData.map((market) => {
+        {pageData.map((market, index) => {
           return (
-            <div className="product">
+            <div className="product" key={index}>
               <button className="buyBtn">خرید</button>
-              <Link to={`/market/${market.code}`} key={market.id}>
+              <Link to={`/market/${market.code}`}>
                 <div>
                   <p>{market.price_info.change}</p>
                   <p>{market.price}</p>

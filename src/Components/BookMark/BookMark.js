@@ -14,7 +14,7 @@ const BookMark = () => {
 
   const bookMarkHandler = (id) => {
     let filtered = bookmarks.filter((market) => {
-      return market[0].id !== id;
+      return market.id !== id;
     });
     setBookmarks(filtered);
     localStorage.setItem("bookMark", JSON.stringify(filtered));
@@ -42,24 +42,26 @@ const BookMark = () => {
         <div className="marketList">
           {bookmarks.map((market) => {
             return (
-              <div className="market" key={market[0].id}>
+              <div className="market" key={market.id}>
                 <button className="buyBtn">خرید</button>
-                <Link to={`/market/${market[0].code}`}>
-                  <p>{market[0].price_info.change}</p>
-                  <p>{market[0].price}</p>
+                <Link to={`/market/${market.code}`}>
+                  <p>{market.price_info.change}</p>
+                  <p>
+                    {market.price} {market.currency2.title}
+                  </p>
                   {/* <div> */}
                   <div className="marketDesc">
                     <div>
-                      <span>{market[0].currency1.title}</span>
-                      <span>{market[0].currency1.title_fa}</span>
+                      <span>{market.currency1.title}</span>
+                      <span>{market.currency1.title_fa}</span>
                     </div>
-                    <img src={market[0].currency1.image} />
+                    <img src={market.currency1.image} />
                   </div>
                 </Link>
                 <button
                   className="activeBookMark"
                   onClick={() => {
-                    bookMarkHandler(market[0].id);
+                    bookMarkHandler(market.id);
                   }}
                 >
                   <BsFillBookmarkPlusFill className="bookmarkIcon" />
