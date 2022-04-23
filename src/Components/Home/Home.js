@@ -5,29 +5,66 @@ import "./Home.scss";
 import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const [markets, setMarkets] = useState(null);
+  const [markets, setMarkets] = useState([]);
   const [error, setError] = useState(null);
-  const [isToman, setToman] = useState(true);
+  const [isToman, setToman] = useState(false);
   const params = useParams();
   const [bookMark, setBookMark] = useState([]);
+  const [pageData, setPageData] = useState([]);
   const navigate = useNavigate();
 
+  const changePage = () => {
+    if (!params.pageNumber) {
+      setPageData(markets.slice(0, 5));
+    } else {
+      setPageData(
+        markets.slice(5 * [params.pageNumber - 1], 5 * params.pageNumber)
+      );
+    }
+  };
+
   const fetchData = () => {
+    let filter;
+    let localStorageBookmark;
     getAllMarkets()
       .then((res) => {
-        const filter = res.data.results.filter((market) => {
+        filter = res.data.results.filter((market) => {
           if (isToman === true) {
             return market.currency2.code === "IRT";
           } else {
             return market.currency2.title === "Tether";
           }
         });
-        if (!params.pageNumber) {
-          setMarkets(filter.slice(0, 5));
-        } else {
-          setMarkets(
-            filter.slice(5 * [params.pageNumber - 1], 5 * params.pageNumber)
+        const localStorageData = localStorage.getItem("bookMark");
+        if (JSON.parse(localStorageData)) {
+          localStorageBookmark = JSON.parse(localStorageData);
+          setBookMark(localStorageBookmark);
+        }
+      })
+      .then(() => {
+        if (
+          localStorageBookmark &&
+          localStorageBookmark.length >= 1 &&
+          !params.pageNumber
+        ) {
+          const filteredData = filter.filter(
+            (elem) =>
+              !localStorageBookmark.find(({ code }) => elem.code === code)
           );
+          let localBookmark;
+          if (isToman === true) {
+            localBookmark = localStorageBookmark.filter(
+              (item) => item.currency2.code === "IRT"
+            );
+          } else {
+            localBookmark = localStorageBookmark.filter(
+              (item) => item.currency2.title === "Tether"
+            );
+          }
+          filteredData.unshift(...localBookmark);
+          setMarkets(filteredData);
+        } else {
+          setMarkets(filter);
         }
       })
       .catch((err) => {
@@ -36,38 +73,36 @@ const Home = () => {
   };
   useEffect(() => {
     fetchData();
-    const localStorageData = localStorage.getItem("bookMark");
-    if (JSON.parse(localStorageData)) {
-      setBookMark(JSON.parse(localStorageData));
-    }
   }, []);
-
   useEffect(() => {
     fetchData();
-  }, [isToman, params.pageNumber]);
+  }, [isToman, bookMark]);
+  useEffect(() => {
+    changePage();
+  }, [params.pageNumber, pageData]);
 
   const bookMarkHandler = (id) => {
     let isExist = bookMark.find((market) => {
-      return market[0].id === id;
+      return market.id === id;
     });
 
     if (!isExist) {
-      let filtered = markets.filter((market) => {
+      let filtered = pageData.filter((market) => {
         return market.id === id;
       });
-      let bookMarks = [...bookMark, filtered];
+      let bookMarks = [...bookMark, filtered[0]];
       setBookMark(bookMarks);
       localStorage.setItem("bookMark", JSON.stringify(bookMarks));
     } else {
       let filtered = bookMark.filter((market) => {
-        return market[0].id !== id;
+        return market.id !== id;
       });
       setBookMark(filtered);
       localStorage.setItem("bookMark", JSON.stringify(filtered));
     }
   };
 
-  if (!markets && !error) {
+  if (!markets.length && !pageData.length && !error) {
     return (
       <section className="home">
         <p>Loading ...</p>
@@ -111,8 +146,7 @@ const Home = () => {
         <span> </span>
       </div>
       <div className="productList">
-        {markets.map((market) => {
-          console.log(market.code);
+        {pageData.map((market) => {
           return (
             <div className="product">
               <button className="buyBtn">خرید</button>
@@ -131,7 +165,7 @@ const Home = () => {
               </Link>
               <button
                 className={
-                  bookMark.find((m) => m[0].id === market.id)
+                  bookMark.find((m) => m.id === market.id)
                     ? "activeBookMark"
                     : "bookmarkBtn"
                 }

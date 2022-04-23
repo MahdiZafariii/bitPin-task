@@ -40,6 +40,7 @@
 .chart{
     @include elementSize(90%,95%);
     @include flexBox(column,center,center);
+    font-size: 10px
 }
 .lastTransAction{
     @include elementSize (90%,200px);

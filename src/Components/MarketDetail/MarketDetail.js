@@ -68,17 +68,7 @@ const MarketDetail = () => {
   const convertedData = chartData.map((data) => {
     const timestamp = data.created_at * 1000;
     const humanReadableDateTime = new Date(timestamp).toLocaleString();
-    let hour = humanReadableDateTime.split(",")[1].split(":")[0];
-    if (humanReadableDateTime.includes("PM") == true && hour == 12) {
-      hour = "12";
-    } else if (humanReadableDateTime.includes("PM") == true) {
-      hour = parseInt(hour) + 12;
-    } else if (humanReadableDateTime.includes("AM") == true && hour == 12) {
-      hour = "00";
-    } else {
-      hour = parseInt(hour);
-    }
-    // console.log(humanReadableDateTime);
+    let hour = humanReadableDateTime.split(",")[1];
     return {
       price: data.price,
       date: hour,
@@ -142,12 +132,7 @@ const MarketDetail = () => {
               <Tooltip />
               <XAxis dataKey="date" />
               <YAxis dataKey="price" type="category" />
-              <Line
-                type="monotone"
-                dataKey="price"
-                stroke="#8884d8"
-                activeDot={{ r: 8 }}
-              />
+              <Line type="monotone" dataKey="price" stroke="#8884d8" />
             </LineChart>
           </ResponsiveContainer>
         </section>
