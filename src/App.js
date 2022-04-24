@@ -12,7 +12,7 @@ function App() {
           <Route path="/market/:code" element={<MarketDetail />} />
           <Route path="/bookmark" element={<BookMark />} />
           <Route path="/" element={<OverView />}>
-            <Route path="/page/:pageNumber" element={<OverView />} />
+            <Route path="/markets" element={<OverView />} />
           </Route>
         </Routes>
       </Router>

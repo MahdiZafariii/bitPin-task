@@ -1,25 +1,29 @@
 import { useEffect, useState } from "react";
+import React from "react";
+
 import { getAllMarkets } from "../../services/getAllMarkets";
 import { BsFillBookmarkPlusFill } from "react-icons/bs";
 import "./Home.scss";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const Home = () => {
   const [markets, setMarkets] = useState([]);
   const [error, setError] = useState(null);
   const [isToman, setToman] = useState(true);
-  const params = useParams();
   const [bookMark, setBookMark] = useState([]);
   const [pageData, setPageData] = useState([]);
   const navigate = useNavigate();
+  function useQuery() {
+    const { search } = useLocation();
 
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+  }
+  let pageNumber = useQuery().get("page");
   const changePage = () => {
-    if (!params.pageNumber) {
+    if (!pageNumber) {
       setPageData(markets.slice(0, 5));
     } else {
-      setPageData(
-        markets.slice(5 * [params.pageNumber - 1], 5 * params.pageNumber)
-      );
+      setPageData(markets.slice(5 * [pageNumber - 1], 5 * pageNumber));
     }
   };
 
@@ -43,7 +47,7 @@ const Home = () => {
         if (
           localStorageBookmark &&
           localStorageBookmark.length >= 1 &&
-          !params.pageNumber
+          !pageNumber
         ) {
           const filteredData = filter.filter(
             (elem) => !bookMark.find(({ id }) => elem.id === id)
@@ -78,7 +82,7 @@ const Home = () => {
   }, [isToman, bookMark.length]);
   useEffect(() => {
     changePage();
-  }, [params.pageNumber, pageData]);
+  }, [pageNumber, pageData]);
 
   const bookMarkHandler = (id) => {
     let isExist = bookMark.find((market) => {
@@ -180,15 +184,15 @@ const Home = () => {
       </div>
       <div className="pagination">
         <Link to="/">1</Link>
-        <Link to="/page/2">2</Link>
-        <Link to="/page/3">3</Link>
-        <Link to="/page/4">4</Link>
-        <Link to="/page/5">5</Link>
-        <Link to="/page/6">6</Link>
-        <Link to="/page/7">7</Link>
-        <Link to="/page/8">8</Link>
-        <Link to="/page/9">9</Link>
-        <Link to="/page/10">10</Link>
+        <Link to="/markets?page=2">2</Link>
+        <Link to="/markets?page=3">3</Link>
+        <Link to="/markets?page=4">4</Link>
+        <Link to="/markets?page=5">5</Link>
+        <Link to="/markets?page=6">6</Link>
+        <Link to="/markets?page=7">7</Link>
+        <Link to="/markets?page=8">8</Link>
+        <Link to="/markets?page=9">9</Link>
+        <Link to="/markets?page=10">10</Link>
       </div>
     </section>
   );
